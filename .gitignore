@@ -1,0 +1,74 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.pyz
+*.pyzw
+*.egg-info/
+dist/
+build/
+*.egg
+*.so
+*.lib
+*.dll
+*.a
+*.obj
+*.o
+*.lo
+*.la
+*.al
+*.dylib
+*.pdb
+*.mdb
+*.idb
+test.log
+*.bak
+*.swp
+*.swo
+*.swn
+*.suo
+*.user
+*.userosscache
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment and configuration files
+.env
+.venv/
+*.ini
+*.json
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Logs
+logs/
+*.log
+
+# Databases
+#*.db
+#*.sqlite
+
+# Others
+.DS_Store
+*.bak
+*.swp
+*.swo
+*.swn
+*.suo
+*.user
+*.userosscache
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings

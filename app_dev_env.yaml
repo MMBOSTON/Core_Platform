@@ -1,0 +1,14 @@
+name: App_Dev
+channels:
+  - conda-forge 
+  - defaults
+dependencies:
+  - python=3.9
+  - fastapi=0.68.*
+  - uvicorn=0.15.*
+  - sqlalchemy=1.4.*
+  - passlib=1.7.*
+  - python-dotenv=0.19.*
+  - pydantic=1.9.*
+  - bcrypt=3.2.*
+  - pyjwt=2.3.*

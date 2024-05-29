@@ -1,0 +1,5 @@
+# Get the token
+token=$(curl -X POST "http://127.0.0.1:8000/login" -H "Content-Type: application/json" -d '{"username": "testuser", "password": "testpassword"}' | jq -r '.access_token')
+
+# Use the token to access a protected endpoint
+curl -X GET "http://127.0.0.1:8000/protected-endpoint" -H "Authorization: Bearer $token"

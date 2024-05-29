@@ -1,0 +1,40 @@
+your_project/
+│
+├── data_storage/
+│   ├── dev.db
+│   ├── test.db
+├── common/
+│   ├── database.py
+│   ├── exceptions.py
+│   ├── middlewares.py
+│   └── logging_config.py
+├── user_management/
+│   ├── models.py
+│   ├── routes.py
+│   ├── schemas.py
+│   └── auth.py
+├── main.py
+├── requirements.txt
+├── README.md
+
+
+
+your_project/
+│
+├── data_storage/
+│   ├── dev.db
+│   ├── test.db
+│
+├── common/
+│   ├── config.py
+│   ├── database.py
+│   ├── logging_config.py
+│
+├── user_management/
+│   ├── models.py
+│   ├── routes.py
+│   ├── jwt_handler.py
+│
+├── main.py
+├── sample_data.py
+├── ...
