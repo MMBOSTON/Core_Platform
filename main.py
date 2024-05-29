@@ -1,18 +1,19 @@
-# main.py
 from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi.responses import JSONResponse
+
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
 from common.database import SessionLocal, engine, Base
 from user_management import models, routes as user_routers
 from common.logging_config import setup_logging
 from common.config import DATABASE_URL
-from user_management.user_crud import verify_token
+from auth.jwt_handler import verify_token  # Importing from jwt_handler
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-logger = setup_logging()
+logger = setup_logging() # Setup logging TODO: Add logging to a timestamped files for each run
 
 # Dependency to get the database session
 def get_db():
@@ -37,6 +38,19 @@ def startup():
 @app.get("/")
 async def root():
     return {"message": "Welcome to the FastAPI application"}
+
+@app.exception_handler(422)
+async def validation_exception_handler(request: Request, exc):
+    errors = exc.errors()
+    error_messages = []
+    for error in errors:
+        loc = error.get("loc")
+        msg = error.get("msg")
+        error_messages.append(f"Error at {loc}: {msg}")
+    return JSONResponse(
+        status_code=422,
+        content={"detail": error_messages},
+    )
 
 # JWT Middleware
 @app.middleware("http")

@@ -1,40 +1,51 @@
-your_project/
+ROOT_PROJECT/
 │
-├── data_storage/
-│   ├── dev.db
-│   ├── test.db
+├── api_gateway/
+│   ├── __init__.py
+|
+├── auth/
+│   ├── __init__.py
+│   ├── jwt_handler.py
+|
 ├── common/
-│   ├── database.py
+│   ├── __init__.py
+|   ├── base.py
+|   ├── config.py
+|   ├── database.py
 │   ├── exceptions.py
 │   ├── middlewares.py
 │   └── logging_config.py
+|
+├── data_storage/
+│   ├── __init__.py
+│   ├── dev.db
+│   ├── test.db
+|
+├── ui_ux/
+│   ├── __init__.py
+|
 ├── user_management/
+│   ├── __init__.py
 │   ├── models.py
 │   ├── routes.py
 │   ├── schemas.py
-│   └── auth.py
+│   └── user_crud.py
+|   └── password_utils.py
+|
 ├── main.py
 ├── requirements.txt
 ├── README.md
+|
+├── frontend/
+│   ├── **Frontend files**
+|
+├── tests/
+│   ├── __init__.py
+│   ├── test_user_management.py
+│   ├── test_auth.py
+│   ├── test_data_storage.py
+│   ├── test_common.py
+│   ├── test_main.py
+│   ├── test_sample_data.py
+│   ├── test_sample_data.py
 
-
-
-your_project/
-│
-├── data_storage/
-│   ├── dev.db
-│   ├── test.db
-│
-├── common/
-│   ├── config.py
-│   ├── database.py
-│   ├── logging_config.py
-│
-├── user_management/
-│   ├── models.py
-│   ├── routes.py
-│   ├── jwt_handler.py
-│
-├── main.py
-├── sample_data.py
-├── ...
