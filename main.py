@@ -1,6 +1,6 @@
+# main.py
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
-
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
 from common.database import SessionLocal, engine, Base
@@ -8,13 +8,24 @@ from user_management import models, routes as user_routers
 from common.logging_config import setup_logging
 from common.config import DATABASE_URL
 from auth.jwt_handler import verify_token  # Importing from jwt_handler
+from common.middlewares import setup_middlewares  # Importing the middleware setup function
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-logger = setup_logging() # Setup logging TODO: Add logging to a timestamped files for each run
+logger = setup_logging()  # Setup logging TODO: Add logging to a timestamped files for each run
 
+# Event handlers for startup and shutdown
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Application started")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    logger.info("Application shutting down")
+
+    
 # Dependency to get the database session
 def get_db():
     db = SessionLocal()
@@ -35,9 +46,9 @@ def startup():
         logger.error(f"Database connection error: {e}")
         raise HTTPException(status_code=500, detail="Database connection error")
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to the FastAPI application"}
+# @app.get("/")
+# async def root():
+#     return {"message": "Welcome to the FastAPI application"}
 
 @app.exception_handler(422)
 async def validation_exception_handler(request: Request, exc):
@@ -52,23 +63,10 @@ async def validation_exception_handler(request: Request, exc):
         content={"detail": error_messages},
     )
 
-# JWT Middleware
-@app.middleware("http")
-async def verify_jwt_middleware(request: Request, call_next):
-    if request.url.path not in ["/login", "/register"]:
-        token = request.headers.get("Authorization")
-        if token:
-            token = token.split(" ")[1]
-            payload = verify_token(token)
-            if payload is None:
-                logger.info(f"Invalid token: {token}")
-                raise HTTPException(status_code=403, detail="Invalid token")
-    response = await call_next(request)
-    return response
-
 # Include user routes
 app.include_router(user_routers.router, prefix="/users", tags=["users"])
 
 if __name__ == "__main__":
     import uvicorn
+    setup_middlewares(app)  # Apply the middleware
     uvicorn.run(app, host="0.0.0.0", port=8000)

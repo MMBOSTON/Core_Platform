@@ -2,8 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from user_management import schemas, user_crud
 from common.database import get_db
+import logging
 
 router = APIRouter()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 @router.post("/register", response_model=schemas.User)
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -14,6 +19,7 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/login")
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
+    logger.info(f"Received login attempt for username: {user.username}")
     db_user = user_crud.verify_user(db, user)
     if not db_user:
         raise HTTPException(status_code=400, detail="Invalid credentials")

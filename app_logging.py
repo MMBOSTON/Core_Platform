@@ -22,7 +22,15 @@ LOGGING_CONFIG = {
     },
 }
 
+import logging
+
 def setup_logging():
-    dictConfig(LOGGING_CONFIG)
-    logger = logging.getLogger("myapp")
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler()
+        ]
+    )
+    logger = logging.getLogger(__name__)
     return logger

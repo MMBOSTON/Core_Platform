@@ -4,7 +4,7 @@ from passlib.exc import UnknownHashError
 
 from user_management import schemas, models
 from dotenv import load_dotenv
-from .password_utils import hash_password
+from .password_utils import hash_password, verify_password
 from auth.jwt_handler import verify_token  # Importing from jwt_handler
 import os
 import jwt
@@ -26,8 +26,17 @@ def create_user(db: Session, user: schemas.UserCreate):
     user_dict = {key: value for key, value in db_user.__dict__.items() if not key.startswith('_')}
     return user_dict
 
-def verify_password(plain_password: str, hashed_password: str):
-    return pwd_context.verify(plain_password, hashed_password)
+def verify_user(db: Session, user: schemas.UserLogin):
+    db_user = get_user_by_username(db, username=user.username)
+    if db_user and db_user.hashed_password:
+        try:
+            match = verify_password(user.password, db_user.hashed_password)
+            print(f"Password match: {match}")  # Temporarily add this line for debugging
+            return match
+        except UnknownHashError:
+            print("Unknown hash error from verify_user function.")
+            return False
+    return False
 
 def create_token(data: dict):
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)

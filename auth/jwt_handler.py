@@ -1,15 +1,15 @@
-import os
-from datetime import datetime, timedelta, timezone
-from typing import Optional
+# jwt_handler.py
 import jwt
+from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")  # Use a default for development
 ALGORITHM = "HS256"
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
