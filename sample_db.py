@@ -27,5 +27,5 @@ def create_sample_db(db_url):
     conn.close()
 
 # Create sample databases
-create_sample_db('./data_storage/dev.db')
-create_sample_db('./data_storage/test.db')
+create_sample_db('./data/dev.db')
+create_sample_db('./data/test.db')

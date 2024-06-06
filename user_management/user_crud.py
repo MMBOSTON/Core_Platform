@@ -8,14 +8,28 @@ from .password_utils import hash_password, verify_password
 from auth.jwt_handler import verify_token  # Importing from jwt_handler
 import os
 import jwt
+import logging
 
 load_dotenv()  # Load environment variables from .env.
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+logger = logging.getLogger(__name__)
+
 def get_user_by_username(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
+
+def verify_user(db: Session, username: str, password: str):
+    user = get_user_by_username(db, username)
+    if not user:
+        logger.info(f"User {username} not found")
+        return None
+    if not verify_password(password, user.hashed_password):
+        logger.info(f"Password match for user {username}: False")
+        return None
+    logger.info(f"Password match for user {username}: True")
+    return user
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = hash_password(user.password)
@@ -26,31 +40,8 @@ def create_user(db: Session, user: schemas.UserCreate):
     user_dict = {key: value for key, value in db_user.__dict__.items() if not key.startswith('_')}
     return user_dict
 
-def verify_user(db: Session, user: schemas.UserLogin):
-    db_user = get_user_by_username(db, username=user.username)
-    if db_user and db_user.hashed_password:
-        try:
-            match = verify_password(user.password, db_user.hashed_password)
-            print(f"Password match: {match}")  # Temporarily add this line for debugging
-            return match
-        except UnknownHashError:
-            print("Unknown hash error from verify_user function.")
-            return False
-    return False
-
 def create_token(data: dict):
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
-
-
-def verify_user(db: Session, user: schemas.UserLogin):
-    db_user = get_user_by_username(db, username=user.username)
-    if db_user and db_user.hashed_password:
-        try:
-            return verify_password(user.password, db_user.hashed_password)
-        except UnknownHashError:
-            print("Unknown hash error from verify_user function.")
-            return False
-    return False
 
 def get_user_by_id(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()

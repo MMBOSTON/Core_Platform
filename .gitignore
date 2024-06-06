@@ -1,5 +1,14 @@
 # .gitignore
 
+# Node Modules
+# Exclude 6000+ Node and react modules
+frontend/node_modules/
+frontend/build/
+node_modules/
+
+#Exclude old files to test their impact on Python code.
+JAIL/
+
 # Python
 __pycache__/
 *.py[cod]

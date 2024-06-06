@@ -11,7 +11,7 @@ Certainly! Starting with Phase 1 involves setting up the core infrastructure and
         
         Copy code
         
-        `your_project/ ├── auth/ ├── api_gateway/ ├── data_storage/ ├── user_management/ ├── common/ ├── ui_ux/ └── main.py`
+        `your_project/ ├── auth/ ├── api_gateway/ ├── data/ ├── user_management/ ├── common/ ├── ui_ux/ └── main.py`
         
 2.  **Environment Setup**:
     

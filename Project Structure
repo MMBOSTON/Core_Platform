@@ -9,35 +9,57 @@ ROOT_PROJECT/
 |
 ├── common/
 │   ├── __init__.py
-|   ├── base.py
-|   ├── config.py
-|   ├── database.py
+│   ├── base.py
+│   ├── config.py
+│   ├── database.py
 │   ├── exceptions.py
 │   ├── middlewares.py
 │   └── logging_config.py
 |
-├── data_storage/
+├── data/
 │   ├── __init__.py
 │   ├── dev.db
 │   ├── test.db
-|
+│
 ├── ui_ux/
 │   ├── __init__.py
-|
+│
 ├── user_management/
 │   ├── __init__.py
 │   ├── models.py
 │   ├── routes.py
 │   ├── schemas.py
-│   └── user_crud.py
-|   └── password_utils.py
+│   ├── user_crud.py
+│   └── password_utils.py
+│
+├── customer_health_dashboard/
+│   ├── __init__.py
+│   ├── chd_models.py        # Database models specific to health scores
+│   ├── chd_routes.py        # API endpoints for the dashboard
+│   ├── chd_services.py      # Business logic and data processing
+│   ├── chd_schemas.py       # Pydantic schemas for request/response validation
+│   ├── chd_dashboard_utils.py  # Helper functions for calculations and data processing
 |
+├── frontend/
+│   ├── package.json
+│   ├── customer_health_dashboard/
+│   │   ├── components/
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── ...
+│   ├── build/
+|   |   ├── ....
+|   ├── node_modules/
+|        ├── ....
+|   ├── src/
+|        ├── .css
+|        ├── .js
+|        ├── .svg
+|   ├── node_modules/
+|        ├── ....
 ├── main.py
 ├── requirements.txt
 ├── README.md
-|
-├── frontend/
-│   ├── **Frontend files**
+
 |
 ├── tests/
 │   ├── __init__.py

@@ -25,18 +25,27 @@ class User(UserBase):
     hashed_password: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserResponse(User):
     pass
-
 
 class UserLogin(BaseModel):
     username: str
     password: str
 
-
 class ValidationError(BaseModel):
     loc: str
     msg: str
     type: str
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str
+    username: str
+    id: int
+    hashed_password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

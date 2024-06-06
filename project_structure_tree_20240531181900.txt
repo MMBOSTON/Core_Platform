@@ -1,0 +1,106 @@
+├── Core_Platform_Phase2.3/
+│   ├── Core_Platform.code-workspace
+│   ├── Phase1.md
+│   ├── Phase2.md
+│   ├── Phase3-Customer-Health-Score-Dashboard.md
+│   ├── Project Structure
+│   ├── api_gateway/
+│   │   ├── __init__.py
+│   ├── app_dev_env.yaml
+│   ├── app_logging.py
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── jwt_handler.py
+│   │   ├── jwt_handler.py_LAST
+│   ├── common/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── database_LAST.py
+│   │   ├── exceptions.py
+│   │   ├── logging_config.py
+│   │   ├── middlewares.py
+│   │   ├── middlewares.py_LAST
+│   ├── customer_data.csv
+│   ├── customer_health_dashboard/
+│   │   ├── chd_middlewares.py
+│   │   ├── chd_models.py
+│   │   ├── chd_routes.py
+│   │   ├── chd_routes_LAST.py
+│   │   ├── chd_schemas.py
+│   ├── customer_health_data.csv
+│   ├── data/
+│   │   ├── __init__.py
+│   │   ├── dev.db
+│   │   ├── test.db
+│   ├── data_generation/
+│   │   ├── calculate_health_score.py
+│   │   ├── generate_mock_data.py
+│   ├── dev.db
+│   ├── frontend/
+│   │   ├── README.md
+│   │   ├── React Logs/
+│   │   │   ├── localhost-1717087241156.log
+│   │   │   ├── localhost-1717088198387.log
+│   │   ├── __init__.py
+│   │   ├── babel.config.js
+│   │   ├── npm_build.log
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── public/
+│   │   │   ├── favicon.ico
+│   │   │   ├── index.html
+│   │   │   ├── logo192.png
+│   │   │   ├── logo512.png
+│   │   │   ├── manifest.json
+│   │   │   ├── robots.txt
+│   │   ├── src/
+│   │   │   ├── App.css
+│   │   │   ├── App.js
+│   │   │   ├── App.js_ORG
+│   │   │   ├── App.test.js
+│   │   │   ├── customer_health_dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── index.js
+│   │   │   │   ├── styles/
+│   │   │   ├── index.css
+│   │   │   ├── index.js
+│   │   │   ├── index.js_ORG
+│   │   │   ├── logo.svg
+│   │   │   ├── reportWebVitals.js
+│   │   │   ├── setupTests.js
+│   ├── generate_project_structure_text_tree.py
+│   ├── login_user.txt
+│   ├── main.py
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── project_structure_tree_20240531155348.txt
+│   ├── project_structure_tree_20240531181514.txt
+│   ├── project_structure_tree_20240531181639.txt
+│   ├── project_structure_tree_20240531181830.txt
+│   ├── protected_endpoint.txt
+│   ├── register_user.txt
+│   ├── sample_db.py
+│   ├── screenshot1.png
+│   ├── scripts_commands/
+│   │   ├── run_tests.py
+│   │   ├── run_uvicorn.txt
+│   ├── secret_key.bash
+│   ├── test.db
+│   ├── test_log.txt
+│   ├── test_results.xml
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── conftest.py
+│   │   ├── test_auth.py
+│   ├── ui_ux/
+│   │   ├── __init__.py
+│   ├── user_management/
+│   │   ├── __init__.py
+│   │   ├── auth_utils.py
+│   │   ├── models.py
+│   │   ├── password_utils.py
+│   │   ├── routes.py
+│   │   ├── schemas.py
+│   │   ├── user_crud.py

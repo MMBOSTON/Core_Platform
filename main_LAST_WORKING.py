@@ -16,14 +16,6 @@ from customer_health_dashboard.chd_schemas import CustomerCreate  # Adjust the i
 
 import logging
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG,
-                format='%(asctime)s - %(levelname)s - %(message)s',
-                datefmt='%m/%d/%Y %H:%M:%S',
-                handlers=[
-                    logging.FileHandler('app.log'),
-                    logging.StreamHandler()])
-
 # Create all tables in the database
 Base.metadata.create_all(bind=engine)
 
@@ -52,13 +44,10 @@ app.add_middleware(
 
 logger = logging.getLogger("uvicorn")
 
-# Define the function first
+@app.on_event("startup")
 async def startup_event():
     print("Application starting")
     logger.info("Application started [message from startup_event() in main.py]")
-
-# Then add the event handler
-app.add_event_handler("startup", startup_event)
 
 # Dependency to get the database session
 def get_db():
@@ -68,7 +57,7 @@ def get_db():
     finally:
         db.close()
 
-# Define the startup function
+@app.on_event("startup")
 def startup():
     try:
         db = SessionLocal()
@@ -79,15 +68,13 @@ def startup():
         logger.error(f"Database connection error: {e}")
         raise HTTPException(status_code=500, detail="Database connection error")
 
-# Add the startup event handler
-app.add_event_handler("startup", startup)
-
 @app.exception_handler(422)
 async def validation_exception_handler(request: Request, exc):
     print(f"Request: {request}")
     print(f"Exception: {exc}")
     errors = exc.errors()
     error_messages = ", ".join([f"Error at {error['loc']}: {error['msg']}" for error in errors])
+    #error_messages = [f"Error at {error['loc']}: {error['msg']" for error in errors]
     print(f"Validation errors: {error_messages}")
     return JSONResponse(
         status_code=422,
@@ -110,15 +97,12 @@ async def get_customer_health(customer_id: int, db: Session = Depends(get_db)):
 
 @app.get("/customers")
 async def get_all_customers(db: Session = Depends(get_db)):
-    customers_all = db.query(chd_models.Customer).all()
-    return customers_all
+    customers = db.query(chd_models.Customer).all()
+    return customers
 
-# Define the shutdown function
+@app.on_event("shutdown")
 async def shutdown_event():
     logger.info("Application shutting down")
-
-# Add the shutdown event handler
-app.add_event_handler("shutdown", shutdown_event)
 
 if __name__ == "__main__":
     import uvicorn

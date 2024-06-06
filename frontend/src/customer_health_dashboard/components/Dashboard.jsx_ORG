@@ -1,0 +1,29 @@
+import React, { useEffect, useState } from 'react';
+import axios from '../services/api';
+import HealthScoreWidget from './HealthScoreWidget';
+
+const Dashboard = () => {
+    const [healthScores, setHealthScores] = useState([]);
+
+    // useEffect(() => {
+    //     axios.get('/api/health_scores')
+    //         .then(response => setHealthScores(response.data))
+    //         .catch(error => console.error('Error fetching health scores', error));
+    // }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/health_scores') // Updated URL pointing to the backend
+           .then(response => setHealthScores(response.data))
+           .catch(error => console.error('Error fetching health scores', error));
+    }, []);
+    
+    return (
+        <div className="dashboard">
+            {healthScores.map(score => (
+                <HealthScoreWidget key={score.customer_id} score={score} />
+            ))}
+        </div>
+    );
+};
+
+export default Dashboard;

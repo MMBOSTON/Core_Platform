@@ -1,0 +1,48 @@
+
+
+
+
+
+1. **Define a Snowfakery Recipe**: Create a YAML file that defines the objects and fields for your "Customer Success Health Dashboard". This file should represent the structure of your data model. For example, you might have objects for `Customer`, `Product`, `Subscription`, `Interaction`, etc., each with their own fields.
+
+2. **Install Snowfakery and SQLAlchemy**: If you haven't already, install Snowfakery and SQLAlchemy using pip:
+
+    ```bash
+    pip install snowfakery sqlalchemy
+    ```
+
+3. **Generate and Insert Data**: Use Snowfakery's command-line interface to generate data and insert it into your SQL database. You'll need to provide the connection string for your database and the path to your Snowfakery recipe. Here's an example command:
+
+    ```bash
+    snowfakery --output-format sqlalchemy --dburl sqlite:///mydatabase.db myrecipe.yml
+    ```
+
+
+>pipx runpip snowfakery install setuptools
+
+>snowfakery --output-format SQL --output-file cs_health_dashboard_db1.sql cs_health_dashboard.yaml
+
+install SQLite3 and ensure it's added to your system's PATH. Here are the steps to do this:
+
+1. Download the SQLite3 from the official SQLite website: https://www.sqlite.org/download.html
+2. Extract the downloaded file.
+3. Add the extracted directory to your system's PATH.
+
+To add the directory to your system's PATH on Windows:
+
+1. Right-click on 'Computer' and click on 'Properties'.
+2. Click on 'Advanced System Settings'.
+3. Click on 'Environment Variables'.
+4. Under 'System Variables', find the PATH variable, select it, and click on 'Edit'.
+5. In the 'Variable value' field, append the path of the extracted SQLite directory to the existing value. Make sure to separate it with a semicolon (;).
+6. Click 'OK' to close all dialog boxes.
+
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\SQLiteStudio
+
+sqlite3 --version
+
+>sqlite3 cs_health_dashboard.db < cs_health_dashboard.yaml
+
+
+https://youtu.be/XA3w8tQnYCA?si=VnkJVo2k1uUanQIi
+
