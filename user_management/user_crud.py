@@ -32,13 +32,17 @@ def verify_user(db: Session, username: str, password: str):
     return user
 
 def create_user(db: Session, user: schemas.UserCreate):
-    hashed_password = hash_password(user.password)
-    db_user = models.User(username=user.username, password=user.password, hashed_password=hashed_password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    user_dict = {key: value for key, value in db_user.__dict__.items() if not key.startswith('_')}
-    return user_dict
+    try:
+        hashed_password = hash_password(user.password)
+        db_user = models.User(username=user.username, password=user.password, hashed_password=hashed_password)
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        user_dict = {key: value for key, value in db_user.__dict__.items() if not key.startswith('_')}
+        return user_dict
+    except Exception as e:
+        logger.error(f"Error creating user: {str(e)}")
+        return None
 
 def create_token(data: dict):
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)

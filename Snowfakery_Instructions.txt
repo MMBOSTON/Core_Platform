@@ -1,7 +1,6 @@
+# Snowfakery Instructions
 
-
-
-
+## How to use Snowfakery  
 
 1. **Define a Snowfakery Recipe**: Create a YAML file that defines the objects and fields for your "Customer Success Health Dashboard". This file should represent the structure of your data model. For example, you might have objects for `Customer`, `Product`, `Subscription`, `Interaction`, etc., each with their own fields.
 

@@ -1,6 +1,7 @@
 """
 setup_chd_middlewares function to add CHD middleware to FastAPI app.
 """
+import logging
 
 # customer_health_dashboard/chd_middlewares.py
 from fastapi import Request, HTTPException
@@ -16,3 +17,5 @@ class ChdMiddleware(BaseHTTPMiddleware):
 
 def setup_chd_middlewares(app):
     app.add_middleware(ChdMiddleware)
+    logger = logging.getLogger(__name__)
+    logger.info("CHD Middlewares imported successfully.")

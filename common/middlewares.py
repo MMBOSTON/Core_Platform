@@ -1,4 +1,10 @@
-# middlewares.py
+"""
+bettter docstring needed...
+common middlewares.py for authentication and HTTP request handling
+
+"""
+import logging
+
 from fastapi import Request, HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
@@ -18,6 +24,6 @@ class VerifyJWTMiddleware(BaseHTTPMiddleware):
 
 def setup_common_middlewares(app):
     app.add_middleware(VerifyJWTMiddleware)
+    logger = logging.getLogger(__name__)
+    logger.info("Common Middlewares imported successfully.")
 
-def test_function():
-    print("Middlewares imported successfully.")

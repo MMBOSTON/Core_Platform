@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from common.database import Base
+from customer_health_dashboard.chd_database import Base
 
 class User(Base):
     __tablename__ = "users"

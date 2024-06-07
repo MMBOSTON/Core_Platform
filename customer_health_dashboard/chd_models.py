@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from common.database import Base
+from customer_health_dashboard.chd_database import Base, get_db, SessionLocal, engine
 
 class Customer(Base):
     __tablename__ = "customers"

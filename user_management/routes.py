@@ -3,7 +3,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from user_management import schemas, user_crud
-from common.database import get_db, SessionLocal, engine
+from customer_health_dashboard.chd_database import Base, get_db, SessionLocal, engine
+#from common.database import get_db, SessionLocal, engine  # remove me !! 
 from auth.jwt_handler import create_access_token
 from.auth_utils import authenticate_user  # Adjust the import path according to your project structure
 from.schemas import Token
