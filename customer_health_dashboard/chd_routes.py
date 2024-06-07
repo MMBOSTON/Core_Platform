@@ -1,43 +1,71 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from customer_health_dashboard.chd_models import Customer
-#Product, SupportTicket, Interaction, CustomerHealthScore, 
-#RenewalDates, BillingInformation, OnboardingStatus, UpsellOpportunities, 
-#ProductUsage, Feedback, ChurnRisk, Contact#from common.database import get_db
-from customer_health_dashboard.chd_schemas import CustomerCreate, CustomerHealthScore
+from sqlalchemy.exc import SQLAlchemyError
+from typing import List
+from fastapi import HTTPException
+from common.schemas import CustomerCreate
+from common.models import Customer, CustomerBase  
 from customer_health_dashboard.chd_database import get_db
+import logging
 
 router = APIRouter()
 
-@router.post("/dashboard", response_model=CustomerCreate)
+# Setup logging
+logger = logging.getLogger(__name__)
+
+@router.post("/dashboard", response_model=CustomerBase, status_code=status.HTTP_201_CREATED)
 async def create_customer(customer: CustomerCreate, db: Session = Depends(get_db)):
-    db_customer = Customer(
-        name=customer.name,
-        email=customer.email,
-        tel_number=customer.tel_number,
-        signup_date=customer.signup_date,
-        nps_score=customer.nps_score,
-        ces_score=customer.ces_score
-    )
-    db.add(db_customer)
-    db.commit()
-    db.refresh(db_customer)
-    return db_customer
+    try:
+        db_customer = Customer(
+            name=customer.name,
+            email=customer.email,
+            tel_number=customer.tel_number,
+            signup_date=customer.signup_date,
+            nps_score=customer.nps_score,
+            ces_score=customer.ces_score
+        )
+        db.add(db_customer)
+        db.commit()
+        db.refresh(db_customer)
+        logger.info(f"Customer created with ID: {db_customer.id}")
+        return CustomerBase.from_orm(db_customer)
+    except SQLAlchemyError as e:
+        db.rollback()
+        logger.error(f"Error creating customer: {e}")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to create customer")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
 
-@router.get("/customer")
+@router.get("/customer", response_model=List[CustomerBase])
 async def get_all_customer(db: Session = Depends(get_db)):
-    customer = db.query(Customer).all()
-    return customer
+    try:
+        customers = db.query(Customer).all()
+        logger.info("Retrieved all customers")
+        return [CustomerBase.from_orm(customer) for customer in customers]
+    except SQLAlchemyError as e:
+        logger.error(f"Error retrieving customers: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve customers")
 
-@router.get("/customer/{customer_id}")
+@router.get("/customer/{customer_id}", response_model=CustomerBase)
 async def get_customer_health(customer_id: int, db: Session = Depends(get_db)):
-    customer = db.query(Customer).filter(Customer.id == customer_id).first()
-    if not customer:
-        raise HTTPException(status_code=404, detail="Customer not found")
-    return customer
+    try:
+        customer = db.query(Customer).filter(Customer.id == customer_id).first()
+        if not customer:
+            logger.warning(f"Customer with ID {customer_id} not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found")
+        logger.info(f"Retrieved customer with ID: {customer_id}")
+        return CustomerBase.from_orm(customer)
+    except SQLAlchemyError as e:
+        logger.error(f"Error retrieving customer with ID {customer_id}: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve customer")
 
-@router.get("/dashboard_data")
+@router.get("/dashboard_data", response_model=List[CustomerBase])
 def get_dashboard_data(db: Session = Depends(get_db)):
-    data = db.query(Customer).all()
-    return data
-
+    try:
+        data = db.query(Customer).all()
+        logger.info("Retrieved dashboard data")
+        return [CustomerBase.from_orm(customer) for customer in data]
+    except SQLAlchemyError as e:
+        logger.error(f"Error retrieving dashboard data: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve dashboard data")

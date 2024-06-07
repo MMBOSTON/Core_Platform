@@ -1,6 +1,26 @@
+from pydantic import BaseModel
+from datetime import date
+from typing import Optional
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from customer_health_dashboard.chd_database import Base, get_db, SessionLocal, engine
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    password = Column(String, nullable=True)  # Raw password (store only if needed)
+    hashed_password = Column(String, nullable=False)  # Hashed password (always store)
+
+class CustomerBase(BaseModel):
+    id: Optional[int] = None
+    name: str
+    email: str
+    tel_number: Optional[str] = None
+    signup_date: date
+    nps_score: int
+    ces_score: int
 
 class Customer(Base):
     __tablename__ = "customers"

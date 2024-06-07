@@ -1,7 +1,12 @@
-
 # Import the necessary Python Standard Library utility modules
-import os
 import sys
+import os
+
+#from common import models as user_models
+
+# Correctly append the directory of main.py to sys.path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import json
 import time 
 import datetime
@@ -23,15 +28,15 @@ from sqlalchemy.exc import SQLAlchemyError
 # Developer defined modules
 from common.logging_config import setup_logging
 from customer_health_dashboard.chd_database import SessionLocal, engine, Base, get_db
-from user_management import models as user_models, routes as user_routers
-from customer_health_dashboard import chd_models, chd_routes
+from user_management import routes as user_routers
+from customer_health_dashboard import chd_routes
 from customer_health_dashboard.chd_middlewares import setup_chd_middlewares
 
 from common.middlewares import setup_common_middlewares
-from customer_health_dashboard.chd_models import Customer
-from customer_health_dashboard.chd_schemas import CustomerCreate  # Adjust the import path as necessary
+from common.models import Customer
 
 import logging # REMOVE BASED ON PHIND SUGGESTION TO REMOVE REDUNDANT LOGGING CONFIGURATION ??
+
 
 logger = logging.getLogger("app")
 
@@ -126,7 +131,7 @@ def process_customers_data(customers):
 @app.get("/customer/{customer_id}")
 async def get_customer_health(customer_id: int, db: Session = Depends(get_db)):
     logger.info(f"Fetching customer with ID: {customer_id}")
-    customer = db.query(chd_models.Customer).filter(chd_models.Customer.id == customer_id).first()
+    customer = db.query(Customer).filter(Customer.id == customer_id).first()
     if not customer:
         logger.warning(f"Customer with ID {customer_id} not found")
         raise HTTPException(status_code=404, detail="Customer not found")
@@ -136,7 +141,7 @@ async def get_customer_health(customer_id: int, db: Session = Depends(get_db)):
 @app.get("/customers")
 async def get_all_customers(db: Session = Depends(get_db)):
     logger.info("Fetching all customers")
-    customers_all = db.query(chd_models.Customer).all()
+    customers_all = db.query(Customer).all()
     logger.info(f"Fetched {len(customers_all)} customers")    
     return customers_all
 

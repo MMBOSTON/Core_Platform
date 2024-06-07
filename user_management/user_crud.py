@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from passlib.exc import UnknownHashError
 
-from user_management import schemas, models
+from common.schemas import UserBase, UserCreate, UserUpdate
+from common import models
 from dotenv import load_dotenv
 from .password_utils import hash_password, verify_password
 from auth.jwt_handler import verify_token  # Importing from jwt_handler
@@ -31,7 +32,15 @@ def verify_user(db: Session, username: str, password: str):
     logger.info(f"Password match for user {username}: True")
     return user
 
-def create_user(db: Session, user: schemas.UserCreate):
+def authenticate_user(db: Session, username: str, password: str):
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        return False
+    if not verify_password(password, user.hashed_password):  # Ensure you have a verify_password function
+        return False
+    return user
+
+def create_user(db: Session, user: UserCreate):
     try:
         hashed_password = hash_password(user.password)
         db_user = models.User(username=user.username, password=user.password, hashed_password=hashed_password)
@@ -57,7 +66,7 @@ def get_user_by_id(db: Session, user_id: int):
 def get_all_users(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.User).offset(skip).limit(limit).all()
 
-def update_user(db: Session, user_id: int, user: schemas.UserUpdate):
+def update_user(db: Session, user_id: int, user: UserUpdate):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     if db_user:
         db_user.username = user.username
@@ -84,7 +93,7 @@ def get_users_by_username(db: Session, username: str):
 def get_users_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).all()
 
-def update_user_by_username(db: Session, username: str, user: schemas.UserUpdate):
+def update_user_by_username(db: Session, username: str, user: UserUpdate):
     db_user = db.query(models.User).filter(models.User.username == username).first()
     if db_user:
         db_user.username = user.username
