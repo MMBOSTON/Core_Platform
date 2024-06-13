@@ -13,6 +13,7 @@ class UserCreate(UserBase):
     def hash_user_password(cls, password: str):
         return hash_password(password)
 
+
 class UserUpdate(UserBase):
     password: Optional[str] = Field(None, min_length=6, max_length=100)
 

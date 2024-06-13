@@ -35,18 +35,37 @@ def verify_user(db: Session, username: str, password: str):
     logger.info(f"Password match for user {username}: True")
     return user
 
+
 def authenticate_user(db: Session, username: str, password: str):
     user = db.query(models.User).filter(models.User.username == username).first()
     if not user:
         return False
-    if not verify_password(password, user.hashed_password):  # Ensure you have a verify_password function
+    if not verify_password(password, user.hashed_password):
         return False
     return user
+
+
+# def create_user(db: Session, user: UserCreate):
+#     try:
+#         hashed_password = hash_password(user.password)
+#         db_user = models.User(username=user.username, password=user.password, hashed_password=hashed_password)
+#         db.add(db_user)
+#         db.commit()
+#         db.refresh(db_user)
+#         user_dict = {key: value for key, value in db_user.__dict__.items() if not key.startswith('_')}
+#         return user_dict
+#     except Exception as e:
+#         logger.error(f"Error creating user: {str(e)}")
+#         return None
+# user_crud.py
 
 def create_user(db: Session, user: UserCreate):
     try:
         hashed_password = hash_password(user.password)
-        db_user = models.User(username=user.username, password=user.password, hashed_password=hashed_password)
+        db_user = models.User(
+            username=user.username,
+            hashed_password=hashed_password
+        )
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
@@ -55,6 +74,7 @@ def create_user(db: Session, user: UserCreate):
     except Exception as e:
         logger.error(f"Error creating user: {str(e)}")
         return None
+
 
 def create_token(data: dict):
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
