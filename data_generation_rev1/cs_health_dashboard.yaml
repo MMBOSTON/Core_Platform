@@ -1,0 +1,140 @@
+- object: Customer
+  count: 100
+  fields:
+    id: ID
+    name: 
+      fake: name
+    email: 
+      fake: email
+    tel_number:
+      fake: phone_number
+    signup_date: 
+      date_between: 
+        start_date: '-1y'
+        end_date: 'now'
+    nps_score:
+      random_number: {min: 0, max: 10}
+    ces_score:
+      random_number: {min: 1, max: 7}
+- object: Product
+  count: 5
+  fields:
+    id: ID
+    name: 
+      fake: company
+- object: SupportTicket
+  count: 500
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    product_id: 
+      random_number: {min: 1, max: 100}
+    issue_date: 
+      date_between: 
+        start_date: '-1y'
+        end_date: 'now'
+    status: 
+      random_choice: ['Open', 'Closed', 'Pending']
+    severity: 
+      random_choice: ['Low', 'Medium', 'High']
+- object: Interaction
+  count: 500
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    product_id: 
+      random_number: {min: 1, max: 100}
+    interaction_date: 
+      date_between: 
+        start_date: '-1y'
+        end_date: 'now'
+    satisfaction_score: 
+      random_number: {min: 1, max: 5}
+- object: CustomerHealthScore
+  count: 100
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    health_score: 
+      random_number: {min: 1, max: 100}
+- object: RenewalDates
+  count: 100
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    renewal_date: 
+      date_between: 
+        start_date: '-1y'
+        end_date: 'now'
+- object: BillingInformation
+  count: 100
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    billing_status: 
+      random_choice: ['Paid', 'Overdue', 'Pending']
+- object: OnboardingStatus
+  count: 100
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    onboarding_status: 
+      random_choice: ['Completed', 'In Progress', 'Not Started']
+- object: UpsellOpportunities
+  count: 100
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    opportunity: 
+      random_choice: ['Upgrade', 'Add-on', 'None']
+- object: ProductUsage
+  count: 500
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    usage_duration: 
+      random_number: {min: 1, max: 100}
+    features_used: 
+      random_number: {min: 1, max: 10}
+- object: Feedback
+  count: 200
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    feedback_text: 
+      fake: sentence
+    feedback_date: 
+      date_between: 
+        start_date: '-1y'
+        end_date: 'now'
+- object: ChurnRisk
+  count: 100
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    churn_risk_score: 
+      random_number: {min: 1, max: 100}
+    churn_risk_reasons: 
+      fake: sentence
+- object: Contact
+  count: 200
+  fields:
+    id: ID
+    customer_id: 
+      random_number: {min: 1, max: 1000}
+    contact_name: 
+      fake: name
+    contact_role: 
+      random_choice: ['Primary', 'Secondary', 'Tertiary']
+    contact_email: 
+      fake: email
