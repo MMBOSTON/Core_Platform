@@ -2,6 +2,9 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from passlib.exc import UnknownHashError
 
+from common.models import User  # Assuming `User` is your SQLAlchemy model
+from common.schemas import UserResponse  # Adjust the import path as necessary
+
 from common.schemas import UserBase, UserCreate, UserUpdate
 from common import models
 from dotenv import load_dotenv
@@ -33,7 +36,7 @@ def verify_user(db: Session, username: str, password: str):
     return user
 
 def authenticate_user(db: Session, username: str, password: str):
-    user = db.query(User).filter(User.username == username).first()
+    user = db.query(models.User).filter(models.User.username == username).first()
     if not user:
         return False
     if not verify_password(password, user.hashed_password):  # Ensure you have a verify_password function
@@ -63,8 +66,11 @@ def get_user_by_id(db: Session, user_id: int):
         return user_dict
     return None
 
-def get_all_users(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(models.User).offset(skip).limit(limit).all()
+
+def get_all_users(db: Session, skip: int = 0, limit: int = 10) -> list[dict]:
+    users = db.query(User).offset(skip).limit(limit).all()
+    return [UserResponse.from_orm(user).dict() for user in users]
+
 
 def update_user(db: Session, user_id: int, user: UserUpdate):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()

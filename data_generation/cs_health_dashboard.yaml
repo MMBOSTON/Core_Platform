@@ -1,4 +1,4 @@
-- object: Customer
+- object: customer
   count: 100
   fields:
     id: ID
@@ -16,13 +16,13 @@
       random_number: {min: 0, max: 10}
     ces_score:
       random_number: {min: 1, max: 7}
-- object: Product
+- object: product
   count: 5
   fields:
     id: ID
     name: 
       fake: company
-- object: SupportTicket
+- object: support_ticket
   count: 500
   fields:
     id: ID
@@ -38,7 +38,7 @@
       random_choice: ['Open', 'Closed', 'Pending']
     severity: 
       random_choice: ['Low', 'Medium', 'High']
-- object: Interaction
+- object: interaction
   count: 500
   fields:
     id: ID
@@ -52,7 +52,7 @@
         end_date: 'now'
     satisfaction_score: 
       random_number: {min: 1, max: 5}
-- object: CustomerHealthScore
+- object: customer_health_score
   count: 100
   fields:
     id: ID
@@ -60,7 +60,7 @@
       random_number: {min: 1, max: 1000}
     health_score: 
       random_number: {min: 1, max: 100}
-- object: RenewalDates
+- object: renewal_dates
   count: 100
   fields:
     id: ID
@@ -70,7 +70,7 @@
       date_between: 
         start_date: '-1y'
         end_date: 'now'
-- object: BillingInformation
+- object: billing_information
   count: 100
   fields:
     id: ID
@@ -78,7 +78,7 @@
       random_number: {min: 1, max: 1000}
     billing_status: 
       random_choice: ['Paid', 'Overdue', 'Pending']
-- object: OnboardingStatus
+- object: onboarding_status
   count: 100
   fields:
     id: ID
@@ -86,7 +86,7 @@
       random_number: {min: 1, max: 1000}
     onboarding_status: 
       random_choice: ['Completed', 'In Progress', 'Not Started']
-- object: UpsellOpportunities
+- object: upsell_opportunities
   count: 100
   fields:
     id: ID
@@ -94,7 +94,7 @@
       random_number: {min: 1, max: 1000}
     opportunity: 
       random_choice: ['Upgrade', 'Add-on', 'None']
-- object: ProductUsage
+- object: product_usage
   count: 500
   fields:
     id: ID
@@ -104,7 +104,7 @@
       random_number: {min: 1, max: 100}
     features_used: 
       random_number: {min: 1, max: 10}
-- object: Feedback
+- object: feedback
   count: 200
   fields:
     id: ID
@@ -116,7 +116,7 @@
       date_between: 
         start_date: '-1y'
         end_date: 'now'
-- object: ChurnRisk
+- object: churn_risk
   count: 100
   fields:
     id: ID
@@ -126,7 +126,7 @@
       random_number: {min: 1, max: 100}
     churn_risk_reasons: 
       fake: sentence
-- object: Contact
+- object: contact
   count: 200
   fields:
     id: ID

@@ -4,7 +4,7 @@ from user_management.password_utils import hash_password, verify_password
 from datetime import date
 
 class UserBase(BaseModel):
-    username: str
+    username: str  
 
 class UserCreate(UserBase):
     password: str
@@ -28,11 +28,12 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
-class UserResponse(User):
-    pass
+class UserResponse(BaseModel):    
+    class Config:
+        orm_mode = True
 
 class UserLogin(BaseModel):
-    username: str
+    username: str 
     password: str
 
 class ValidationError(BaseModel):
@@ -43,7 +44,7 @@ class ValidationError(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
-    username: str
+    username: str  
     id: int
     hashed_password: str
 
@@ -54,7 +55,7 @@ class Token(BaseModel):
 class CustomerHealthScore(BaseModel):
     customer_id: int
     usage_frequency: float
-    support_tickets: int
+    support_ticket: int
     nps_score: float
 
 class CustomerCreate(BaseModel):
@@ -64,3 +65,4 @@ class CustomerCreate(BaseModel):
     signup_date: date
     nps_score: int
     ces_score: int
+    username: str  

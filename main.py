@@ -2,13 +2,11 @@
 import sys
 import os
 
-#from common import models as user_models
-
 # Correctly append the directory of main.py to sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import json
-import time 
+import time
 import datetime
 import requests
 import webbrowser
@@ -35,10 +33,8 @@ from customer_health_dashboard.chd_middlewares import setup_chd_middlewares
 from common.middlewares import setup_common_middlewares
 from common.models import Customer
 
-import logging # REMOVE BASED ON PHIND SUGGESTION TO REMOVE REDUNDANT LOGGING CONFIGURATION ??
-
-
-logger = logging.getLogger("app")
+# Set up logging
+logger = setup_logging()
 
 # Create all tables in the database
 Base.metadata.create_all(bind=engine)
@@ -69,7 +65,6 @@ app.add_middleware(
 
 # Define the function first
 async def startup_event():
-    #logger = logging.getLogger("app")      # Redundant logging configuration
     logger.info("Application starting")
     logger.info("Application started [message from startup_event() in main.py]")
 
@@ -90,17 +85,6 @@ def startup():
 # Add the startup event handler
 app.add_event_handler("startup", startup)
 
-# @app.exception_handler(422)
-# async def validation_exception_handler(request: Request, exc):
-#     print(f"Request: {request}")
-#     print(f"Exception: {exc}")
-#     errors = exc.errors()
-#     error_messages = ", ".join([f"Error at {error['loc']}: {error['msg']}" for error in errors])
-#     print(f"Validation errors: {error_messages}")
-#     return JSONResponse(
-#         status_code=422,
-#         content={"detail": error_messages},
-#     )
 
 @app.exception_handler(422)
 async def validation_exception_handler(request: Request, exc):
@@ -116,10 +100,6 @@ async def validation_exception_handler(request: Request, exc):
 # Include user routes
 app.include_router(user_routers.router, prefix="/users", tags=["users"])
 app.include_router(chd_routes.router, prefix="/dashboard", tags=["dashboard"])
-
-# def process_customers_data(customers):        ## COMMENTED OUT BECAUSE IT WAS REPLACED BY THE FUNCTION BELOW to add logging
-#     return [{"customer_id": customer.id, "name": customer.name, "nps_score": customer.nps_score} for customer in customers]
-
 
 def process_customers_data(customers):
     logger.info("Processing customer data")
@@ -164,11 +144,6 @@ def open_browser():
 # Your FastAPI application code goes here
 
 if __name__ == "__main__":
-    # create logger 
-    # logger = logging.getLogger(__name__)
-    logger = setup_logging()
     logger.info("Server is starting")
     threading.Thread(target=open_browser).start()
     uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="debug", reload=True)
-
-

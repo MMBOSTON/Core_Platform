@@ -8,7 +8,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from contextvars import ContextVar, copy_context
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./data_generation/cs_health_dashboard.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./data_generation/cs_health_dashboard_snake_case.db"
+#SQLALCHEMY_DATABASE_URL = "sqlite:///./data_generation/cs_health_dashboard.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}

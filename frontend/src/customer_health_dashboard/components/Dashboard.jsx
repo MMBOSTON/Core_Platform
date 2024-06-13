@@ -22,7 +22,7 @@ const Dashboard = () => {
                             key={score.customer_id}
                             customerId={score.customer_id}
                             usageFrequency={score.usage_frequency}
-                            supportTickets={score.support_tickets}
+                            supportTickets={score.support_ticket}
                             npsScore={score.nps_score}
                         />
                     ))}
